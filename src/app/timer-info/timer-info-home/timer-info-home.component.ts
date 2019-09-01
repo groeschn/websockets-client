@@ -4,6 +4,7 @@ import {Observable, of} from 'rxjs';
 import {TimerInfoMessage} from '../../model/TimerInfoMessage';
 import {TimerInfoMessageAction} from '../../model/TimerInfoMessageAction';
 import {map} from 'rxjs/operators';
+import {TimerInfoService} from '../timer-info-service/timer-info.service';
 
 @Component({
   selector: 'app-timer-info-home',
@@ -12,48 +13,13 @@ import {map} from 'rxjs/operators';
 })
 export class TimerInfoHomeComponent implements OnInit {
 
-  timerInfoMessage$: Observable<TimerInfoMessage> = of({
-    action: TimerInfoMessageAction.LIST,
-    timerInfos: [
-      {
-        id: 'abcd',
-        name: 'TestTimer1',
-        accumulatedMilliseconds: 1000,
-        start: null,
-      },
-      {
-        id: 'efgh',
-        name: 'TestTimer2',
-        accumulatedMilliseconds: 4000,
-        start: new Date(),
-      },
-      {
-        id: 'ijkl',
-        name: 'TestTimer3',
-        accumulatedMilliseconds: 4000,
-        start: null,
-      },
-      {
-        id: 'mnop',
-        name: 'TestTimer4',
-        accumulatedMilliseconds: 4000,
-        start: null,
-      },
-      {
-        id: 'qrstu',
-        name: 'TestTimer5',
-        accumulatedMilliseconds: 4000,
-        start: new Date(),
-      },
-    ],
-  });
   stoppedTimerInfos$: Observable<TimerInfo[]>;
   activeTimerInfos$: Observable<TimerInfo[]>;
 
-  constructor() { }
+  constructor(private timerInfoService: TimerInfoService) { }
 
   ngOnInit() {
-    const timerInfos$ = this.timerInfoMessage$.pipe(
+    const timerInfos$ = this.timerInfoService.timerInfoMessages$.pipe(
       map((timerInfoMessage) => timerInfoMessage.timerInfos)
     );
     this.stoppedTimerInfos$ = timerInfos$.pipe(
