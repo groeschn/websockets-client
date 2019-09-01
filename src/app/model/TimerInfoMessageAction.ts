@@ -1,3 +1,5 @@
 export enum TimerInfoMessageAction {
-  ADD, REMOVE, LIST
+  ADD = 'ADD',
+  REMOVE = 'REMOVE',
+  LIST = 'LIST',
 }

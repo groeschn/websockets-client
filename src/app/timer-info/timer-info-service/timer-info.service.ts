@@ -1,58 +1,38 @@
 import {Injectable} from '@angular/core';
-import {Observable, of} from 'rxjs';
+import {Observable, of, ReplaySubject} from 'rxjs';
 import {TimerInfoMessage} from '../../model/TimerInfoMessage';
 import {TimerInfo} from '../../model/TimerInfo';
 import {TimerInfoMessageAction} from '../../model/TimerInfoMessageAction';
-import {share} from 'rxjs/internal/operators';
+import {WebSocketSubject, WebSocketSubjectConfig} from 'rxjs/internal/observable/dom/WebSocketSubject';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TimerInfoService {
 
-  timerInfoMessages$ = of({
-    action: TimerInfoMessageAction.LIST,
-    timerInfos: [
-      {
-        id: 'abcd',
-        name: 'TestTimer1',
-        accumulatedMilliseconds: 1000,
-        start: null,
-      },
-      {
-        id: 'efgh',
-        name: 'TestTimer2',
-        accumulatedMilliseconds: 4000,
-        start: new Date(),
-      },
-      {
-        id: 'ijkl',
-        name: 'TestTimer3',
-        accumulatedMilliseconds: 4000,
-        start: null,
-      },
-      {
-        id: 'mnop',
-        name: 'TestTimer4',
-        accumulatedMilliseconds: 4000,
-        start: null,
-      },
-      {
-        id: 'qrstu',
-        name: 'TestTimer5',
-        accumulatedMilliseconds: 4000,
-        start: new Date(),
-      },
-    ],
-  }).pipe(
-    share(),
-  );
+  private socket$: WebSocketSubject<TimerInfoMessage>;
+
+  private serverListMessages$ = new ReplaySubject<TimerInfoMessage>();
 
   constructor() {
+    const config: WebSocketSubjectConfig<TimerInfoMessage> = {
+      deserializer: (event) => JSON.parse(event.data, (key, value) => key === 'start' ? new Date(value) : value),
+      url: 'ws://localhost:8080/websockets/timer-info',
+    };
+    this.socket$ = new WebSocketSubject<TimerInfoMessage>(config);
+    this.socket$.subscribe(
+      (timerInfoMessage) => {
+        if (timerInfoMessage.action.toString() === TimerInfoMessageAction.LIST.toString()) {
+          this.serverListMessages$.next(timerInfoMessage);
+        }
+      },
+      (error) => console.log(error),
+      () => console.log('websocket completed')
+    );
   }
 
   public serverMessages$(): Observable<TimerInfoMessage> {
-    return this.timerInfoMessages$;
+    return this.serverListMessages$;
   }
 
   public addOrUpdateTimer(timerInfo: TimerInfo): void {
@@ -62,6 +42,7 @@ export class TimerInfoService {
         timerInfo
       ],
     };
+    this.socket$.next(addOrUpdateMessage);
   }
 
   public removeTimer(timerInfo: TimerInfo): void {
@@ -71,5 +52,6 @@ export class TimerInfoService {
         timerInfo
       ],
     };
+    this.socket$.next(removeMessage);
   }
 }

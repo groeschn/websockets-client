@@ -19,7 +19,7 @@ export class TimerInfoHomeComponent implements OnInit {
   constructor(private timerInfoService: TimerInfoService) { }
 
   ngOnInit() {
-    const timerInfos$ = this.timerInfoService.timerInfoMessages$.pipe(
+    const timerInfos$ = this.timerInfoService.serverMessages$().pipe(
       map((timerInfoMessage) => timerInfoMessage.timerInfos)
     );
     this.stoppedTimerInfos$ = timerInfos$.pipe(
