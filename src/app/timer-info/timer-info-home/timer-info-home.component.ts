@@ -21,6 +21,24 @@ export class TimerInfoHomeComponent implements OnInit {
       accumulatedMilliseconds: 4000,
       start: null,
     },
+    {
+      id: 'ijkl',
+      name: 'TestTimer3',
+      accumulatedMilliseconds: 4000,
+      start: null,
+    },
+    {
+      id: 'mnop',
+      name: 'TestTimer4',
+      accumulatedMilliseconds: 4000,
+      start: null,
+    },
+    {
+      id: 'qrstu',
+      name: 'TestTimer5',
+      accumulatedMilliseconds: 4000,
+      start: null,
+    },
   ];
 
   constructor() { }

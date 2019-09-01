@@ -4,6 +4,7 @@ import {TimerInfoComponent} from './timer-info/timer-info.component';
 import {TimerInfoListComponent} from './timer-info-list/timer-info-list.component';
 import { TimerInfoHomeComponent } from './timer-info-home/timer-info-home.component';
 import {TimerInfoRoutingModule} from './timer-info-routing.module';
+import {TimeModule} from '../pipe/time/time.module';
 
 
 
@@ -16,6 +17,7 @@ import {TimerInfoRoutingModule} from './timer-info-routing.module';
   imports: [
     CommonModule,
     TimerInfoRoutingModule,
+    TimeModule,
   ]
 })
 export class TimerInfoModule { }
