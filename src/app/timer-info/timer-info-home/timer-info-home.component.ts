@@ -25,7 +25,7 @@ export class TimerInfoHomeComponent implements OnInit {
         id: 'efgh',
         name: 'TestTimer2',
         accumulatedMilliseconds: 4000,
-        start: null,
+        start: new Date(),
       },
       {
         id: 'ijkl',

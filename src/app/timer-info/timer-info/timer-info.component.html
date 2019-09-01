@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-body">
     <h5 class="card-title">{{timerInfo?.name}}</h5>
-    <p class="card-text">{{timerInfo?.accumulatedMilliseconds|time}}</p>
+    <p class="card-text">{{runningMilliseconds$|async|time}}</p>
   </div>
 </div>
