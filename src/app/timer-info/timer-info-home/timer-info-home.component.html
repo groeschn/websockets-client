@@ -1,1 +1,4 @@
-<app-timer-info-list [timerInfos]="timerInfos"></app-timer-info-list>
+Active Timer:
+<app-timer-info-list [timerInfos]="activeTimerInfos$|async"></app-timer-info-list>
+Stopped Timer:
+<app-timer-info-list [timerInfos]="stoppedTimerInfos$|async"></app-timer-info-list>
