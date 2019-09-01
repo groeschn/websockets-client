@@ -2,5 +2,18 @@
   <div class="card-body">
     <h5 class="card-title">{{timerInfo?.name}}</h5>
     <p class="card-text">{{runningMilliseconds$|async|time}}</p>
+    <div>
+      <button *ngIf="!isRunning()"
+              (click)="start()"
+              type="button"
+              class="btn btn-primary">Start</button>
+      <button *ngIf="isRunning()"
+              (click)="stop()"
+              type="button"
+              class="btn btn-primary">Stop</button>
+      <button (click)="remove()"
+              type="button"
+              class="btn btn-danger">Remove</button>
+    </div>
   </div>
 </div>
