@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {TimerInfo} from './model/TimerInfo';
 
 @Component({
   selector: 'app-root',

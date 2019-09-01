@@ -1,0 +1,7 @@
+<div class="container-fluid">
+  <div class="row">
+    <div *ngFor="let timerInfo of timerInfos" class="col-md-3">
+      <app-timer-info [timerInfo]="timerInfo"></app-timer-info>
+    </div>
+  </div>
+</div>
